@@ -156,7 +156,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/dylan.github.io/2021/06/10/hello-world/" class="post-title-link" itemprop="url">Hello World</a>
+            <a href="/dylan.github.io/2021/06/10/hello-world/" class="post-title-link" itemprop="url">Git Flow</a>
         </h2>
 
         <div class="post-meta">
@@ -165,8 +165,9 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
+              
 
-              <time title="创建时间：2021-06-10 14:58:21" itemprop="dateCreated datePublished" datetime="2021-06-10T14:58:21+08:00">2021-06-10</time>
+              <time title="创建时间：2021-06-10 14:58:21 / 修改时间：17:00:26" itemprop="dateCreated datePublished" datetime="2021-06-10T14:58:21+08:00">2021-06-10</time>
             </span>
 
           
@@ -180,19 +181,20 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+          <h2 id="安装-git-flow"><a href="#安装-git-flow" class="headerlink" title="安装 git-flow"></a>安装 git-flow</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$ git flow init</span><br><span class="line">Initialized empty Git repository <span class="keyword">in</span> /Users/tobi/acme-website/.git/</span><br><span class="line">Branch name <span class="keyword">for</span> production releases: [master]</span><br><span class="line">Branch name <span class="keyword">for</span> <span class="string">&quot;next release&quot;</span> development: [develop]</span><br><span class="line"></span><br><span class="line">How to name your supporting branch prefixes?</span><br><span class="line">Feature branches? [feature/]</span><br><span class="line">Release branches? [release/]</span><br><span class="line">Hotfix branches? [hotfix/]</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+<h2 id="新功能开发"><a href="#新功能开发" class="headerlink" title="新功能开发"></a>新功能开发</h2><h3 id="1-新建一个功能分支"><a href="#1-新建一个功能分支" class="headerlink" title="1.新建一个功能分支"></a>1.新建一个功能分支</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ git flow feature start rss-feed</span><br><span class="line">Switched to a new branch <span class="string">&#x27;feature/rss-feed&#x27;</span></span><br></pre></td></tr></table></figure>
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+<h3 id="2-完成一个功能"><a href="#2-完成一个功能" class="headerlink" title="2.完成一个功能"></a>2.完成一个功能</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git flow feature finish rss-feed</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+<p>功能合并到 dev 分支并切换到 dev 分支（在此之前 dev 分支的代码要拉到最新）</p>
+<h2 id="管理-releases"><a href="#管理-releases" class="headerlink" title="管理 releases"></a>管理 releases</h2><h3 id="1-创建-releases"><a href="#1-创建-releases" class="headerlink" title="1.创建 releases"></a>1.创建 releases</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ npm version patch</span><br><span class="line">$ git flow release start 1.1.5</span><br><span class="line"></span><br><span class="line">Switched to a new branch <span class="string">&#x27;release/1.1.5&#x27;</span></span><br></pre></td></tr></table></figure>
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+<h3 id="2-完成-releases-在此之前-master-代码要拉到最新"><a href="#2-完成-releases-在此之前-master-代码要拉到最新" class="headerlink" title="2.完成 releases (在此之前 master 代码要拉到最新)"></a>2.完成 releases (在此之前 master 代码要拉到最新)</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git flow release finish 1.1.5</span><br></pre></td></tr></table></figure>
+
+<h2 id="推送本地代码（dev-和-master）和-tag"><a href="#推送本地代码（dev-和-master）和-tag" class="headerlink" title="推送本地代码（dev 和 master）和 tag"></a>推送本地代码（dev 和 master）和 tag</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git push --tags</span><br></pre></td></tr></table></figure>
+
+<p>更详细讲解: <a target="_blank" rel="noopener" href="https://www.git-tower.com/learn/git/ebook/cn/command-line/advanced-topics/git-flow/">链接</a></p>
 
       
     </div>
