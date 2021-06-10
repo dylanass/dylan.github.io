@@ -1,39 +1,59 @@
 ---
-title: Hello World
+title: Git Flow
 ---
 
-Welcome to [Hexo](https://hexo.io/)! This is your very first post. Check [documentation](https://hexo.io/docs/) for more info. If you get any problems when using Hexo, you can find the answer in [troubleshooting](https://hexo.io/docs/troubleshooting.html) or you can ask me on [GitHub](https://github.com/hexojs/hexo/issues).
-
-## Quick Start
-
-### Create a new post
+## 安装 git-flow
 
 ```bash
-$ hexo new "My New Post"
+$ git flow init
+Initialized empty Git repository in /Users/tobi/acme-website/.git/
+Branch name for production releases: [master]
+Branch name for "next release" development: [develop]
+
+How to name your supporting branch prefixes?
+Feature branches? [feature/]
+Release branches? [release/]
+Hotfix branches? [hotfix/]
 ```
 
-More info: [Writing](https://hexo.io/docs/writing.html)
+## 新功能开发
 
-### Run server
+### 1.新建一个功能分支
 
 ```bash
-$ hexo server
+$ git flow feature start rss-feed
+Switched to a new branch 'feature/rss-feed'
 ```
 
-More info: [Server](https://hexo.io/docs/server.html)
-
-### Generate static files
+### 2.完成一个功能
 
 ```bash
-$ hexo generate
+$ git flow feature finish rss-feed
 ```
 
-More info: [Generating](https://hexo.io/docs/generating.html)
+功能合并到 dev 分支并切换到 dev 分支（在此之前 dev 分支的代码要拉到最新）
 
-### Deploy to remote sites
+## 管理 releases
+
+### 1.创建 releases
 
 ```bash
-$ hexo deploy
+$ npm version patch
+$ git flow release start 1.1.5
+
+Switched to a new branch 'release/1.1.5'
 ```
 
-More info: [Deployment](https://hexo.io/docs/one-command-deployment.html)
+### 2.完成 releases (在此之前 master 代码要拉到最新)
+
+```bash
+$ git flow release finish 1.1.5
+```
+
+## 推送本地代码（dev 和 master）和 tag
+
+```bash
+$ git push --tags
+```
+
+更详细讲解: [链接](https://www.git-tower.com/learn/git/ebook/cn/command-line/advanced-topics/git-flow/)
