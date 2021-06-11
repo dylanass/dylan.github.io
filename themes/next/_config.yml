@@ -54,6 +54,9 @@ language_switcher: false
 # see detail from https://github.com/hustcc/canvas-nest.js
 canvas_nest: true
 
+# mouse click effect: fireworks | explosion | love | text
+cursor_effect: love
+
 footer:
   # Specify the date when the site was setup. If not defined, current year will be used.
   since: 2021
