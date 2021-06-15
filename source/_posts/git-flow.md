@@ -15,7 +15,6 @@ $ git flow init
 Initialized empty Git repository in /Users/tobi/acme-website/.git/
 Branch name for production releases: [master]
 Branch name for "next release" development: [develop]
-
 How to name your supporting branch prefixes?
 Feature branches? [feature/]
 Release branches? [release/]
@@ -46,7 +45,6 @@ $ git flow feature finish rss-feed
 ```bash
 $ npm version patch
 $ git flow release start 1.1.5
-
 Switched to a new branch 'release/1.1.5'
 ```
 
@@ -56,10 +54,20 @@ Switched to a new branch 'release/1.1.5'
 $ git flow release finish 1.1.5
 ```
 
-## 推送本地代码（dev 和 master）和 tag
+### 推送本地代码（dev 和 master）和 tag
 
 ```bash
 $ git push --tags
 ```
 
-更详细讲解: [链接](https://www.git-tower.com/learn/git/ebook/cn/command-line/advanced-topics/git-flow/)
+## Hotfix
+
+### 切到 master 分支
+
+```
+$ npm version patch (提升c位版本号)
+1.git flow hotfix start 1.0.0.20121105  基于master
+2.git flow hotfix finish 1.0.0.20121105  (测试完成，执行)合并到dev, master
+```
+
+[For more information](https://www.git-tower.com/learn/git/ebook/cn/command-line/advanced-topics/git-flow/)
