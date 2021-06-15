@@ -1237,7 +1237,7 @@ pre .javascript .function {
 }
 .links-of-author a::before,
 .links-of-author span.exturl::before {
-  background: #ebdd9e;
+  background: #330eff;
   border-radius: 50%;
   content: ' ';
   display: inline-block;
@@ -2509,7 +2509,6 @@ ul.breadcrumb li + li:last-child {
 .links-of-blogroll-item {
   padding: 0;
 }
-添加背景图片,
 body {
   background-image: url("/images/background.jpeg");
   background-repeat: no-repeat;
