@@ -21,6 +21,8 @@ Release branches? [release/]
 Hotfix branches? [hotfix/]
 ```
 
+<!-- more -->
+
 ## 新功能开发
 
 ### 1.新建一个功能分支
