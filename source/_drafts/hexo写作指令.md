@@ -1,6 +1,8 @@
 ---
 title: hexo写作指令
-tags:
+date: 2021-07-19 15:23:00
+tags: 
+    - hexo
 ---
 
 #### 1.创建一个 md 文件
