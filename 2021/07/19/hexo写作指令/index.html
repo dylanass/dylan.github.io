@@ -21,30 +21,33 @@
     var CONFIG = {"hostname":"aftea-c.github.io","root":"/dylan.github.io/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="Dylan的博客">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Dylan的博客">
-<meta property="og:url" content="https://aftea-c.github.io/dylan.github.io/index.html">
+  <meta name="description" content="1.创建一个 md 文件12$ hexo new &lt;title&gt;$ hexo new &quot;我的页面&quot;  2.布局（layout）12$ hexo new [layout] &lt;title&gt;$ hexo new page &quot;我的页面&quot;   布局有三种：post（文章）、draft（草稿）、page（页面）">
+<meta property="og:type" content="article">
+<meta property="og:title" content="hexo写作指令">
+<meta property="og:url" content="https://aftea-c.github.io/dylan.github.io/2021/07/19/hexo%E5%86%99%E4%BD%9C%E6%8C%87%E4%BB%A4/index.html">
 <meta property="og:site_name" content="Dylan的博客">
-<meta property="og:description" content="Dylan的博客">
+<meta property="og:description" content="1.创建一个 md 文件12$ hexo new &lt;title&gt;$ hexo new &quot;我的页面&quot;  2.布局（layout）12$ hexo new [layout] &lt;title&gt;$ hexo new page &quot;我的页面&quot;   布局有三种：post（文章）、draft（草稿）、page（页面）">
 <meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-07-19T07:23:00.000Z">
+<meta property="article:modified_time" content="2021-07-19T07:27:25.221Z">
 <meta property="article:author" content="Dylan">
+<meta property="article:tag" content="hexo">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="https://aftea-c.github.io/dylan.github.io/">
+<link rel="canonical" href="https://aftea-c.github.io/dylan.github.io/2021/07/19/hexo%E5%86%99%E4%BD%9C%E6%8C%87%E4%BB%A4/">
 
 
 <script id="page-configurations">
   // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
-    isHome : true,
-    isPost : false,
+    isHome : false,
+    isPost : true,
     lang   : 'zh-CN'
   };
 </script>
 
-  <title>Dylan的博客</title>
+  <title>hexo写作指令 | Dylan的博客</title>
   
 
 
@@ -155,9 +158,10 @@
         <div class="content-wrap">
           
 
-          <div class="content index posts-expand">
+          <div class="content post posts-expand">
             
-      
+
+    
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
@@ -173,10 +177,9 @@
       <meta itemprop="name" content="Dylan的博客">
     </span>
       <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/dylan.github.io/2021/07/19/hexo%E5%86%99%E4%BD%9C%E6%8C%87%E4%BB%A4/" class="post-title-link" itemprop="url">hexo写作指令</a>
-        </h2>
+        <h1 class="post-title" itemprop="name headline">
+          hexo写作指令
+        </h1>
 
         <div class="post-meta">
             <span class="post-meta-item">
@@ -200,117 +203,78 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h4 id="1-创建一个-md-文件"><a href="#1-创建一个-md-文件" class="headerlink" title="1.创建一个 md 文件"></a>1.创建一个 md 文件</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new &lt;title&gt;</span><br><span class="line">$ hexo new <span class="string">&quot;我的页面&quot;</span></span><br></pre></td></tr></table></figure>
+        <h4 id="1-创建一个-md-文件"><a href="#1-创建一个-md-文件" class="headerlink" title="1.创建一个 md 文件"></a>1.创建一个 md 文件</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new &lt;title&gt;</span><br><span class="line">$ hexo new <span class="string">&quot;我的页面&quot;</span></span><br></pre></td></tr></table></figure>
 
 <h4 id="2-布局（layout）"><a href="#2-布局（layout）" class="headerlink" title="2.布局（layout）"></a>2.布局（layout）</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new [layout] &lt;title&gt;</span><br><span class="line">$ hexo new page <span class="string">&quot;我的页面&quot;</span></span><br></pre></td></tr></table></figure>
 
 <ul>
 <li>布局有三种：post（文章）、draft（草稿）、page（页面）</li>
 </ul>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/dylan.github.io/2021/07/19/hexo%E5%86%99%E4%BD%9C%E6%8C%87%E4%BB%A4/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
+<span id="more"></span>
+
+<h4 id="3-草稿（draft）"><a href="#3-草稿（draft）" class="headerlink" title="3.草稿（draft）"></a>3.草稿（draft）</h4><ul>
+<li>我们可在启动服务器时加上 –draft 参数来查看草稿。</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server --draft</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>还可以在站点配置文件中把 render_drafts 参数设为 true 来预览草稿。</li>
+<li>我们可以通过 publish 命令将草稿发布文章或者页面，它将会被移动到指定的文件夹。</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo publish [layout] &lt;title&gt;</span><br></pre></td></tr></table></figure>
+
+<h4 id="4-Front-matter"><a href="#4-Front-matter" class="headerlink" title="4.Front-matter"></a>4.Front-matter</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">---</span><br><span class="line">title: Hello World <span class="comment"># 标题就是我们上面创建的时候指定的名字</span></span><br><span class="line">date: 2013/7/13 20:46:25 <span class="comment"># 文件创建的时间</span></span><br><span class="line">---</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>在 Typora 中我们在 md 文件的首行（必须是第一行）输入— ，然后按回车就可以插入 Front-matter 了。</p>
+</blockquote>
+<ul>
+<li>Front-matter 预定义参数</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">layout  布局  默认为<span class="literal">true</span>，如果你不想你的文章被处理，可以设置为<span class="literal">false</span></span><br><span class="line">title  标题  标题会显示在最上方居中位置</span><br><span class="line">date  建立日期    如果不指定则为默认值-文件创建日期，可以自定义。</span><br><span class="line">update  更新日期  如果不指定则为默认值-文件修改后重新生成静态文件的日期。</span><br><span class="line">comments  是否开启文章的评论功能 默认值为<span class="literal">true</span></span><br><span class="line">tags  标签（不适用于页面page布局）</span><br><span class="line">categoreies  分类（不适用于页面page布局）</span><br><span class="line">permalink  覆盖文章网址</span><br><span class="line">keywords  仅用于 meta 标签和 Open Graph 的关键词（不推荐使用）</span><br></pre></td></tr></table></figure>
+
+<h5 id="为文章添加分类与标签"><a href="#为文章添加分类与标签" class="headerlink" title="为文章添加分类与标签"></a>为文章添加分类与标签</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">categories:</span><br><span class="line">    - 个人博客（第一层级）</span><br><span class="line">    - Hexo博客（第二层级）</span><br><span class="line">tags:</span><br><span class="line">    - Hexo</span><br><span class="line">    - 博客</span><br></pre></td></tr></table></figure>
+
+<h5 id="基本操作"><a href="#基本操作" class="headerlink" title="基本操作"></a>基本操作</h5><ul>
+<li><strong>清除缓存</strong>：<code>hexo clean</code></li>
+<li><strong>生成静态文件</strong>：<code>hexo generate</code> 可简写为 <code>hexo g</code></li>
+<li><strong>启动服务器</strong>：<code>hexo server</code> 或者 <code>hexo s</code> 常用参数：-p（–port）重设端口</li>
+<li><strong>部署</strong>：<code>hexo deploy</code>可简写为<code>hexo d</code>，用于将网站部署到服务器上。（暂时用不到，目前都是在本地，后面我们将博客托管到 GitHub Pages 或 Gitee Pages 时才会用到此命令）<br>常用参数：-g（–generate），<code>hexo d -g</code>部署前预先生成静态文件，等同于 <code>hexo g -d</code></li>
+</ul>
+<p><strong>一般发布文章或者修改博客后需要这些操作</strong>：清除缓存&gt;生成静态文件&gt;启动服务器，测试没问题后再部署。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">// 我们可以写成一条命令</span><br><span class="line">$ hexo clean &amp;&amp; hexo g &amp;&amp; hexo s</span><br><span class="line">$ hexo d</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>更多细节请查看:<a target="_blank" rel="noopener" href="https://hexo.bootcss.com/docs/">官方文档</a></p>
+</blockquote>
+
     </div>
 
     
     
     
+
       <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
+          <div class="post-tags">
+              <a href="/dylan.github.io/tags/hexo/" rel="tag"># hexo</a>
+          </div>
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://aftea-c.github.io/dylan.github.io/2021/06/10/git-flow/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/dylan.github.io/images/head.jpeg">
-      <meta itemprop="name" content="Dylan">
-      <meta itemprop="description" content="Dylan的博客">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Dylan的博客">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/dylan.github.io/2021/06/10/git-flow/" class="post-title-link" itemprop="url">Git Flow</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-06-10 11:21:00" itemprop="dateCreated datePublished" datetime="2021-06-10T11:21:00+08:00">2021-06-10</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-06-21 18:17:44" itemprop="dateModified" datetime="2021-06-21T18:17:44+08:00">2021-06-21</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/dylan.github.io/categories/%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%8C%96/" itemprop="url" rel="index"><span itemprop="name">前端工程化</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="安装-git-flow"><a href="#安装-git-flow" class="headerlink" title="安装 git-flow"></a>安装 git-flow</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ git flow init</span><br><span class="line">Initialized empty Git repository <span class="keyword">in</span> /Users/tobi/acme-website/.git/</span><br><span class="line">Branch name <span class="keyword">for</span> production releases: [master]</span><br><span class="line">Branch name <span class="keyword">for</span> <span class="string">&quot;next release&quot;</span> development: [develop]</span><br><span class="line">How to name your supporting branch prefixes?</span><br><span class="line">Feature branches? [feature/]</span><br><span class="line">Release branches? [release/]</span><br><span class="line">Hotfix branches? [hotfix/]</span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/dylan.github.io/2021/06/10/git-flow/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
         
-      
-    </div>
 
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/dylan.github.io/2021/06/10/git-flow/" rel="prev" title="Git Flow">
+      <i class="fa fa-chevron-left"></i> Git Flow
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
       </footer>
+    
   </article>
   
   
-  
-
-
   
 
 
@@ -363,6 +327,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA-md-%E6%96%87%E4%BB%B6"><span class="nav-number">1.</span> <span class="nav-text">1.创建一个 md 文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-%E5%B8%83%E5%B1%80%EF%BC%88layout%EF%BC%89"><span class="nav-number">2.</span> <span class="nav-text">2.布局（layout）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-%E8%8D%89%E7%A8%BF%EF%BC%88draft%EF%BC%89"><span class="nav-number">3.</span> <span class="nav-text">3.草稿（draft）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-Front-matter"><span class="nav-number">4.</span> <span class="nav-text">4.Front-matter</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%B8%BA%E6%96%87%E7%AB%A0%E6%B7%BB%E5%8A%A0%E5%88%86%E7%B1%BB%E4%B8%8E%E6%A0%87%E7%AD%BE"><span class="nav-number">4.1.</span> <span class="nav-text">为文章添加分类与标签</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C"><span class="nav-number">4.2.</span> <span class="nav-text">基本操作</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
