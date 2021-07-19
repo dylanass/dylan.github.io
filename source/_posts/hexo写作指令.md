@@ -19,6 +19,7 @@ $ hexo new "我的页面"
 $ hexo new [layout] <title>
 $ hexo new page "我的页面"
 ```
+<!-- more -->
 
 - 布局有三种：post（文章）、draft（草稿）、page（页面）
 
