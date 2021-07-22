@@ -14,6 +14,7 @@ categories:
 - Typescript 是静态语言与动态语言 JavaScript 不同，静态语言在编写代码的时候就能发现潜在的错误，编写代码时静态语言能识别到可能使用到的属性等，像 data 参数静态语言能直接读出里面的属性 x, y
 
 <!-- more -->
+
 #### 下载安装及使用
 
 - 使用`npm install -g typescript` 下载即可
@@ -21,8 +22,6 @@ categories:
 - 建议安装 TSlint 插件规范代码
 
 ---
-
-### 下面进入正题
 
 #### 基础类型
 
@@ -238,6 +237,7 @@ x[6] = true; // Error, 布尔不是(string | number)类型
 ```
 
 两种形式是等价的。
+
 > 注意：当你在 TypeScript 里使用 JSX 时，只有 `as` 语法断言是被允许的。
 
 ---
