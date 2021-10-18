@@ -362,3 +362,227 @@ T extends U ? X : Y
 
 > 理解为 T 继承 U ,也就是说, T 中包含 U 中所有属性
 > 也就是说 T 中必须包含 U 中的所有属性,则是 true ,反之就是 false
+
+为了更好理解上面的例子
+
+```
+type A = {a:number}
+type B = {a:number , b:number}
+type C = {a:number , b:number , c:number}
+
+type R1 = A extend B ? true : false // false
+type R2 = C extend B ? true : false // true
+```
+
+然后我们先来看一个概念叫: **泛型约束**
+
+首先我们要知道,泛型本身是来者不拒的,所有类型都能被**显示传入**(如`Array<number>`)和**隐式推导**(如`foo(1)`)
+
+这个例子
+
+```
+T extends object 与 U extends keyof T
+```
+
+都是泛型约束,分别将 **T 约束为对象类型** 和 将 **U 约束为 T 键名的字面量联合类型**
+
+所以在 TS 中我们通过泛型约束,要求传入的泛型只能是固定类型
+
+例如 `T extends {}` 被约束为对象类型 和 `T extend string | number` 被约束为字符串和数字类型
+
+看一个以条件类型做为返回值类型的例子
+
+```
+declare function strOrNum<T extends boolean>(
+  x: T
+): T extends true ? string : number;
+
+
+const strReturnType = strOrNum(true);  //string
+const numReturnType = strOrNum(false);  //number
+```
+
+在这种情况下，条件类型的推导就会被延迟，因为此时类型系统没有足够的信息来完成判断。
+只有给出了所需信息（在这里是入参 x 的类型），才可以完成推导。
+
+同样的，就像三元表达式可以嵌套，条件类型也可以嵌套，如果你看过一些框架源码，也会发现其中存在着许多嵌套的条件类型，无他，条件类型可以将类型约束收拢到非常窄的范围内，提供精确的条件类型，如：
+
+```
+type TypeName<T> = T extends string
+  ? "string"
+  : T extends number
+  ? "number"
+  : T extends boolean
+  ? "boolean"
+  : T extends undefined
+  ? "undefined"
+  : T extends Function
+  ? "function"
+  : "object";
+```
+
+- **分布式条件类型 Distributive Conditional Types**
+
+分布式条件类型实际上不是一种特殊的条件类型，而是其特性之一（所以说条件类型的分布式特性更为准确）。我们直接先上概念： 对于属于裸类型参数的检查类型，条件类型会在实例化时期自动分发到联合类型上。
+
+> 原文: Conditional types in which the checked type is a naked type parameter are called distributive conditional types. Distributive conditional types are automatically distributed over union types during instantiation
+
+先提取几个关键词，然后我们再通过例子理清这个概念：
+
+1. **裸类型参数（类型参数即泛型，见文章开头的泛型章节介绍**
+2. **实例化**
+3. **分发到联合类型**
+
+使用上面的 `TypeName` 举几个例子
+
+```
+type T1 = TypeName<string | (() => void)>;  // string | function
+
+type T2 = TypeName<string | string[]>;  // string | object
+
+type T3 = TypeName<string[] | number[]>; // object
+```
+
+上面的例子推导结果都是联合类型, 实际上就依次推导结果用 | 连起来.
+
+T3 也是,只不过两次结果相同,合并了.
+
+上面的例子都是泛型裸露的情况,如果被包裹呢?
+
+再看另外一个例子:
+
+```
+type A<T> = T extends boolean ? 'Y' : 'N'
+type WrapperA<T> = [T] extends [boolean] ? 'Y' : 'N'
+
+
+type B = A<boolean | number>                 //'Y' | 'N'
+type WrapperB = WrapperA<boolean | number>   //'N'
+```
+
+第二种情况 `WrapperB` 是没有进行分发的过程的,会直接进行 `[boolean | number] extend [boolean]` 的判断,所以结果是 `'N'`
+**(这块的结果可以理解成:第一种情况裸露泛型就会进行类型分发是 `|` ;第二种情况不会进行 l 类型分发是 `&&`)**
+
+现在来理解下 上面的三个概念
+
+1. 裸类型参数:实际上就是没有`[]`包裹过的
+2. 实例化:其实就是条件类型的判断过程，就像我们前面说的，条件类型需要在收集到足够的推断信息之后才能进行这个过程。在这里两个例子的实例化过程实际上是不同的，具体会在下一点中介绍
+3. 分发到联合类型: `typeB = A<boolean> | A<number>` 实际上就是这个的结果
+
+一句话概括：**没有被 [] 额外包装的联合类型参数，在条件类型进行判定时会将联合类型分发，分别进行判断。**
+
+> 这两种行为没有好坏之分，区别只在于是否进行联合类型的分发，如果你需要走分布式条件类型，那么注意保持你的类型参数为裸类型参数。如果你想避免这种行为，那么使用 `[]` 包裹你的类型参数即可（注意在 extends 关键字的两侧都需要)。
+
+## infer 关键字
+
+## 工具类型 Tool Type
+
+这一章应该是本文“性价比”最高的一部分了，因为即使你在阅读完这部分后，还是不太懂这些工具类型是如何实现的，也不影响你把它用的恰到好处，就像 Lodash 不会要求你对每个使用的函数都熟知原理一样。
+
+- **内置工具类型**
+
+1. `Partial` 它用于将一个接口中的字段全部变为可选
+
+```
+//可选 (内置)
+type Partial<T> = {
+  [K in keyof T]?: T[k];
+};
+
+//必填 (不属于内置)
+type Required<T> = {
+  [K in keyof T]-?: T[K];
+};
+
+//只读 (不属于内置)
+type Readonly<T> = {
+  readonly [K in keyof T]: T[K];
+};
+```
+
+2. `Pick` 从一个接口中挑选一些字段
+
+```
+type Pick<T, K extends keyof T> = {
+  [P in K]: T[P];
+};
+
+// type Part = Pick<A, "a" | "b">
+// 从 A 中挑出字段是 'a' 和 'b'
+```
+
+既然有了 `Pick` 就要有 `Omit` : 移除传入的键值
+
+在看 `Omit` 之前要知道一个类型叫 `never`: 表示永远不会出现的类型 (通常被用来收窄联合类型或接口)
+
+3. `Exclude` 排除
+
+```
+type Exclude<T, U> = T extends U ? never : T;
+
+//原理就是 T 中包含 U吗? 包含就剔除,赋值 never
+
+type LeftFields = Exclude<"1" | "2" | "3" | "4" | "5", "1" | "2">;  // "3" | "4" | "5"
+```
+
+4. `Omit` 从一个对象中排除部分
+
+```
+type Omit<T,K extends keyof any> = Pick<T, Exclude<keyof T, K>>
+
+// 原理就是 挑选出 从 T 的键值中 排除掉 K的
+```
+
+- `Exclude` 用在排除联合类型
+- `Omit` 用来排出对象中的键值
+
+5. `Record` 生成一个新接口 第一个参数做为键 , 第二个参数作为每个键的值
+
+先写源码:
+
+```
+// K extends keyof any 约束K必须为联合类型
+
+type Record<K extends keyof any , T> = {
+  [P in K] : T
+}
+```
+
+使用例子:
+
+```
+type Key = 'a' | 'b' | 'c'
+
+interface Value {
+  widgets: string[];
+  title?: string;
+  keepAlive?: boolean;
+}
+
+type routerProps = Record<Key, Value>;
+
+相当于...
+// type routerProps = {
+//    a: Value;
+//    b: Value;
+// }
+
+const router: Record<Key, Value> = {
+  a: { widgets: [""] , title:'123' , keepAlive:true},
+  b: { widgets: [""] , title:'456'},
+  c: { widgets: [""] },
+};
+```
+
+- **社区工具类型**
+- **递归的工具类型**
+- **返回键名的工具类型**
+- **基于值类型的 Pick 与 Omit**
+- **工具类型一览**
+
+## TypeScript 4.x 中的部分新特性
+
+- **模板字面量类型**
+- **重映射**
+
+## 结束语
