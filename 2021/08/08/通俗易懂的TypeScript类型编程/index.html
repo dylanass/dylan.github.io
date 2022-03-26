@@ -29,7 +29,7 @@
 <meta property="og:description" content="TypeScript 的另一面：类型编程 正文包括：  基础泛型 索引类型 &amp; 映射类型 条件类型 &amp; 分布式条件类型 infer 关键字 类型守卫 is in 关键字 内置工具类型机能与原理 内置工具类型增强 更多通用工具类型   接下来进入正文">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2021-08-08T09:40:28.000Z">
-<meta property="article:modified_time" content="2021-10-15T16:03:13.112Z">
+<meta property="article:modified_time" content="2021-10-18T06:00:00.265Z">
 <meta property="article:author" content="Dylan">
 <meta property="article:tag" content="TypeScript">
 <meta name="twitter:card" content="summary">
@@ -195,7 +195,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-10-16 00:03:13" itemprop="dateModified" datetime="2021-10-16T00:03:13+08:00">2021-10-16</time>
+                <time title="修改时间：2021-10-18 14:00:00" itemprop="dateModified" datetime="2021-10-18T14:00:00+08:00">2021-10-18</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -365,7 +365,108 @@
 <blockquote>
 <p>理解为 T 继承 U ,也就是说, T 中包含 U 中所有属性<br>也就是说 T 中必须包含 U 中的所有属性,则是 true ,反之就是 false</p>
 </blockquote>
+<p>为了更好理解上面的例子</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">type A = &#123;a:number&#125;</span><br><span class="line">type B = &#123;a:number , b:number&#125;</span><br><span class="line">type C = &#123;a:number , b:number , c:number&#125;</span><br><span class="line"></span><br><span class="line">type R1 = A extend B ? true : false // false</span><br><span class="line">type R2 = C extend B ? true : false // true</span><br></pre></td></tr></table></figure>
 
+<p>然后我们先来看一个概念叫: <strong>泛型约束</strong></p>
+<p>首先我们要知道,泛型本身是来者不拒的,所有类型都能被<strong>显示传入</strong>(如<code>Array&lt;number&gt;</code>)和<strong>隐式推导</strong>(如<code>foo(1)</code>)</p>
+<p>这个例子</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">T extends object 与 U extends keyof T</span><br></pre></td></tr></table></figure>
+
+<p>都是泛型约束,分别将 <strong>T 约束为对象类型</strong> 和 将 <strong>U 约束为 T 键名的字面量联合类型</strong></p>
+<p>所以在 TS 中我们通过泛型约束,要求传入的泛型只能是固定类型</p>
+<p>例如 <code>T extends &#123;&#125;</code> 被约束为对象类型 和 <code>T extend string | number</code> 被约束为字符串和数字类型</p>
+<p>看一个以条件类型做为返回值类型的例子</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">declare function strOrNum&lt;T extends boolean&gt;(</span><br><span class="line">  x: T</span><br><span class="line">): T extends true ? string : number;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">const strReturnType = strOrNum(true);  //string</span><br><span class="line">const numReturnType = strOrNum(false);  //number</span><br></pre></td></tr></table></figure>
+
+<p>在这种情况下，条件类型的推导就会被延迟，因为此时类型系统没有足够的信息来完成判断。<br>只有给出了所需信息（在这里是入参 x 的类型），才可以完成推导。</p>
+<p>同样的，就像三元表达式可以嵌套，条件类型也可以嵌套，如果你看过一些框架源码，也会发现其中存在着许多嵌套的条件类型，无他，条件类型可以将类型约束收拢到非常窄的范围内，提供精确的条件类型，如：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">type TypeName&lt;T&gt; = T extends string</span><br><span class="line">  ? &quot;string&quot;</span><br><span class="line">  : T extends number</span><br><span class="line">  ? &quot;number&quot;</span><br><span class="line">  : T extends boolean</span><br><span class="line">  ? &quot;boolean&quot;</span><br><span class="line">  : T extends undefined</span><br><span class="line">  ? &quot;undefined&quot;</span><br><span class="line">  : T extends Function</span><br><span class="line">  ? &quot;function&quot;</span><br><span class="line">  : &quot;object&quot;;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>分布式条件类型 Distributive Conditional Types</strong></li>
+</ul>
+<p>分布式条件类型实际上不是一种特殊的条件类型，而是其特性之一（所以说条件类型的分布式特性更为准确）。我们直接先上概念： 对于属于裸类型参数的检查类型，条件类型会在实例化时期自动分发到联合类型上。</p>
+<blockquote>
+<p>原文: Conditional types in which the checked type is a naked type parameter are called distributive conditional types. Distributive conditional types are automatically distributed over union types during instantiation</p>
+</blockquote>
+<p>先提取几个关键词，然后我们再通过例子理清这个概念：</p>
+<ol>
+<li><strong>裸类型参数（类型参数即泛型，见文章开头的泛型章节介绍</strong></li>
+<li><strong>实例化</strong></li>
+<li><strong>分发到联合类型</strong></li>
+</ol>
+<p>使用上面的 <code>TypeName</code> 举几个例子</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">type T1 = TypeName&lt;string | (() =&gt; void)&gt;;  // string | function</span><br><span class="line"></span><br><span class="line">type T2 = TypeName&lt;string | string[]&gt;;  // string | object</span><br><span class="line"></span><br><span class="line">type T3 = TypeName&lt;string[] | number[]&gt;; // object</span><br></pre></td></tr></table></figure>
+
+<p>上面的例子推导结果都是联合类型, 实际上就依次推导结果用 | 连起来.</p>
+<p>T3 也是,只不过两次结果相同,合并了.</p>
+<p>上面的例子都是泛型裸露的情况,如果被包裹呢?</p>
+<p>再看另外一个例子:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">type A&lt;T&gt; = T extends boolean ? &#x27;Y&#x27; : &#x27;N&#x27;</span><br><span class="line">type WrapperA&lt;T&gt; = [T] extends [boolean] ? &#x27;Y&#x27; : &#x27;N&#x27;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">type B = A&lt;boolean | number&gt;                 //&#x27;Y&#x27; | &#x27;N&#x27;</span><br><span class="line">type WrapperB = WrapperA&lt;boolean | number&gt;   //&#x27;N&#x27;</span><br></pre></td></tr></table></figure>
+
+<p>第二种情况 <code>WrapperB</code> 是没有进行分发的过程的,会直接进行 <code>[boolean | number] extend [boolean]</code> 的判断,所以结果是 <code>&#39;N&#39;</code><br><strong>(这块的结果可以理解成:第一种情况裸露泛型就会进行类型分发是 <code>|</code> ;第二种情况不会进行 l 类型分发是 <code>&amp;&amp;</code>)</strong></p>
+<p>现在来理解下 上面的三个概念</p>
+<ol>
+<li>裸类型参数:实际上就是没有<code>[]</code>包裹过的</li>
+<li>实例化:其实就是条件类型的判断过程，就像我们前面说的，条件类型需要在收集到足够的推断信息之后才能进行这个过程。在这里两个例子的实例化过程实际上是不同的，具体会在下一点中介绍</li>
+<li>分发到联合类型: <code>typeB = A&lt;boolean&gt; | A&lt;number&gt;</code> 实际上就是这个的结果</li>
+</ol>
+<p>一句话概括：<strong>没有被 [] 额外包装的联合类型参数，在条件类型进行判定时会将联合类型分发，分别进行判断。</strong></p>
+<blockquote>
+<p>这两种行为没有好坏之分，区别只在于是否进行联合类型的分发，如果你需要走分布式条件类型，那么注意保持你的类型参数为裸类型参数。如果你想避免这种行为，那么使用 <code>[]</code> 包裹你的类型参数即可（注意在 extends 关键字的两侧都需要)。</p>
+</blockquote>
+<h2 id="infer-关键字"><a href="#infer-关键字" class="headerlink" title="infer 关键字"></a>infer 关键字</h2><h2 id="工具类型-Tool-Type"><a href="#工具类型-Tool-Type" class="headerlink" title="工具类型 Tool Type"></a>工具类型 Tool Type</h2><p>这一章应该是本文“性价比”最高的一部分了，因为即使你在阅读完这部分后，还是不太懂这些工具类型是如何实现的，也不影响你把它用的恰到好处，就像 Lodash 不会要求你对每个使用的函数都熟知原理一样。</p>
+<ul>
+<li><strong>内置工具类型</strong></li>
+</ul>
+<ol>
+<li><code>Partial</code> 它用于将一个接口中的字段全部变为可选</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">//可选 (内置)</span><br><span class="line">type Partial&lt;T&gt; = &#123;</span><br><span class="line">  [K in keyof T]?: T[k];</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">//必填 (不属于内置)</span><br><span class="line">type Required&lt;T&gt; = &#123;</span><br><span class="line">  [K in keyof T]-?: T[K];</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">//只读 (不属于内置)</span><br><span class="line">type Readonly&lt;T&gt; = &#123;</span><br><span class="line">  readonly [K in keyof T]: T[K];</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li><code>Pick</code> 从一个接口中挑选一些字段</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">type Pick&lt;T, K extends keyof T&gt; = &#123;</span><br><span class="line">  [P in K]: T[P];</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">// type Part = Pick&lt;A, &quot;a&quot; | &quot;b&quot;&gt;</span><br><span class="line">// 从 A 中挑出字段是 &#x27;a&#x27; 和 &#x27;b&#x27;</span><br></pre></td></tr></table></figure>
+
+<p>既然有了 <code>Pick</code> 就要有 <code>Omit</code> : 移除传入的键值</p>
+<p>在看 <code>Omit</code> 之前要知道一个类型叫 <code>never</code>: 表示永远不会出现的类型 (通常被用来收窄联合类型或接口)</p>
+<ol start="3">
+<li><code>Exclude</code> 排除</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">type Exclude&lt;T, U&gt; = T extends U ? never : T;</span><br><span class="line"></span><br><span class="line">//原理就是 T 中包含 U吗? 包含就剔除,赋值 never</span><br><span class="line"></span><br><span class="line">type LeftFields = Exclude&lt;&quot;1&quot; | &quot;2&quot; | &quot;3&quot; | &quot;4&quot; | &quot;5&quot;, &quot;1&quot; | &quot;2&quot;&gt;;  // &quot;3&quot; | &quot;4&quot; | &quot;5&quot;</span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li><code>Omit</code> 从一个对象中排除部分</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">type Omit&lt;T,K extends keyof any&gt; = Pick&lt;T, Exclude&lt;keyof T, K&gt;&gt;</span><br><span class="line"></span><br><span class="line">// 原理就是 挑选出 从 T 的键值中 排除掉 K的</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>Exclude</code> 用在排除联合类型</li>
+<li><code>Omit</code> 用来排出对象中的键值</li>
+</ul>
+<ol start="5">
+<li><code>Record</code> 生成一个新接口 第一个参数做为键 , 第二个参数作为每个键的值</li>
+</ol>
+<p>先写源码:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// K extends keyof any 约束K必须为联合类型</span><br><span class="line"></span><br><span class="line">type Record&lt;K extends keyof any , T&gt; = &#123;</span><br><span class="line">  [P in K] : T</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>使用例子:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">type Key = &#x27;a&#x27; | &#x27;b&#x27; | &#x27;c&#x27;</span><br><span class="line"></span><br><span class="line">interface Value &#123;</span><br><span class="line">  widgets: string[];</span><br><span class="line">  title?: string;</span><br><span class="line">  keepAlive?: boolean;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">type routerProps = Record&lt;Key, Value&gt;;</span><br><span class="line"></span><br><span class="line">相当于...</span><br><span class="line">// type routerProps = &#123;</span><br><span class="line">//    a: Value;</span><br><span class="line">//    b: Value;</span><br><span class="line">// &#125;</span><br><span class="line"></span><br><span class="line">const router: Record&lt;Key, Value&gt; = &#123;</span><br><span class="line">  a: &#123; widgets: [&quot;&quot;] , title:&#x27;123&#x27; , keepAlive:true&#125;,</span><br><span class="line">  b: &#123; widgets: [&quot;&quot;] , title:&#x27;456&#x27;&#125;,</span><br><span class="line">  c: &#123; widgets: [&quot;&quot;] &#125;,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>社区工具类型</strong></li>
+<li><strong>递归的工具类型</strong></li>
+<li><strong>返回键名的工具类型</strong></li>
+<li><strong>基于值类型的 Pick 与 Omit</strong></li>
+<li><strong>工具类型一览</strong></li>
+</ul>
+<h2 id="TypeScript-4-x-中的部分新特性"><a href="#TypeScript-4-x-中的部分新特性" class="headerlink" title="TypeScript 4.x 中的部分新特性"></a>TypeScript 4.x 中的部分新特性</h2><ul>
+<li><strong>模板字面量类型</strong></li>
+<li><strong>重映射</strong></li>
+</ul>
+<h2 id="结束语"><a href="#结束语" class="headerlink" title="结束语"></a>结束语</h2>
     </div>
 
     
@@ -448,7 +549,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#TypeScript-%E7%9A%84%E5%8F%A6%E4%B8%80%E9%9D%A2%EF%BC%9A%E7%B1%BB%E5%9E%8B%E7%BC%96%E7%A8%8B"><span class="nav-number">1.</span> <span class="nav-text">TypeScript 的另一面：类型编程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B3%9B%E5%9E%8B-Generic-Type"><span class="nav-number">1.1.</span> <span class="nav-text">泛型 Generic Type</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B1%BB%E5%9E%8B%E5%AE%88%E5%8D%AB%E3%80%81is-in-%E5%85%B3%E9%94%AE%E5%AD%97"><span class="nav-number">1.2.</span> <span class="nav-text">类型守卫、is in 关键字</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8E%E5%AD%97%E6%AE%B5%E5%8C%BA%E5%88%86%E6%8E%A5%E5%8F%A3"><span class="nav-number">1.2.1.</span> <span class="nav-text">基于字段区分接口</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B4%A2%E5%BC%95%E7%B1%BB%E5%9E%8B%E4%B8%8E%E6%98%A0%E5%B0%84%E7%B1%BB%E5%9E%8B"><span class="nav-number">1.3.</span> <span class="nav-text">索引类型与映射类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9D%A1%E4%BB%B6%E7%B1%BB%E5%9E%8B-Conditional-Types"><span class="nav-number">1.4.</span> <span class="nav-text">条件类型 Conditional Types</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#TypeScript-%E7%9A%84%E5%8F%A6%E4%B8%80%E9%9D%A2%EF%BC%9A%E7%B1%BB%E5%9E%8B%E7%BC%96%E7%A8%8B"><span class="nav-number">1.</span> <span class="nav-text">TypeScript 的另一面：类型编程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B3%9B%E5%9E%8B-Generic-Type"><span class="nav-number">1.1.</span> <span class="nav-text">泛型 Generic Type</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B1%BB%E5%9E%8B%E5%AE%88%E5%8D%AB%E3%80%81is-in-%E5%85%B3%E9%94%AE%E5%AD%97"><span class="nav-number">1.2.</span> <span class="nav-text">类型守卫、is in 关键字</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8E%E5%AD%97%E6%AE%B5%E5%8C%BA%E5%88%86%E6%8E%A5%E5%8F%A3"><span class="nav-number">1.2.1.</span> <span class="nav-text">基于字段区分接口</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B4%A2%E5%BC%95%E7%B1%BB%E5%9E%8B%E4%B8%8E%E6%98%A0%E5%B0%84%E7%B1%BB%E5%9E%8B"><span class="nav-number">1.3.</span> <span class="nav-text">索引类型与映射类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9D%A1%E4%BB%B6%E7%B1%BB%E5%9E%8B-Conditional-Types"><span class="nav-number">1.4.</span> <span class="nav-text">条件类型 Conditional Types</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#infer-%E5%85%B3%E9%94%AE%E5%AD%97"><span class="nav-number">1.5.</span> <span class="nav-text">infer 关键字</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B7%A5%E5%85%B7%E7%B1%BB%E5%9E%8B-Tool-Type"><span class="nav-number">1.6.</span> <span class="nav-text">工具类型 Tool Type</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TypeScript-4-x-%E4%B8%AD%E7%9A%84%E9%83%A8%E5%88%86%E6%96%B0%E7%89%B9%E6%80%A7"><span class="nav-number">1.7.</span> <span class="nav-text">TypeScript 4.x 中的部分新特性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%93%E6%9D%9F%E8%AF%AD"><span class="nav-number">1.8.</span> <span class="nav-text">结束语</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -464,20 +565,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/dylan.github.io/archives/">
         
-          <span class="site-state-item-count">8</span>
+          <span class="site-state-item-count">9</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/dylan.github.io/categories/">
           
-        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-count">4</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/dylan.github.io/tags/">
           
-        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-count">6</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

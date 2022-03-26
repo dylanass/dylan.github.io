@@ -1,0 +1,18 @@
+// 自定义回到顶部样式
+.back-to-top {
+    background: url('/images/totop.png');
+    bottom: unset;
+    height: 900px; // 图片素材高度
+    right: 60px;
+    top: -900px;
+    transition: all .5s ease-in-out;
+    width: 70px; // 图片素材宽度
+    // 隐藏箭头图标
+    > i {
+        display: none;
+    }
+    &.back-to-top-on {
+        bottom: unset;
+        top: 100vh < (900px + 200px) ? calc(100vh - 900px - 200px) : 0;
+    }
+}
