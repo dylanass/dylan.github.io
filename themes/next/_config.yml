@@ -56,7 +56,7 @@ language_switcher: false
 # background settings
 # add canvas-nest effect
 # see detail from https://github.com/hustcc/canvas-nest.js
-canvas_nest: true
+canvas_nest: false
 
 # mouse click effect: fireworks | explosion | love | text
 cursor_effect: love
