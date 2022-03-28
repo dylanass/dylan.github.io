@@ -1238,10 +1238,14 @@ pre .javascript .function {
 .links-of-author a::before,
 .links-of-author span.exturl::before {
 <<<<<<< HEAD
+<<<<<<< HEAD
   background: #ad9ce9;
 =======
   background: #938c8f;
 >>>>>>> 8652526eb984f488cf201aed64a455c62017051c
+=======
+  background: #eb718e;
+>>>>>>> d1d3eb93ae318b953d91609ccbff39329e99e9e9
   border-radius: 50%;
   content: ' ';
   display: inline-block;
@@ -1586,7 +1590,10 @@ pre .javascript .function {
   }
 }
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> d1d3eb93ae318b953d91609ccbff39329e99e9e9
 .reading-progress-bar {
   background: #37c6c0;
   display: block;
@@ -1597,7 +1604,10 @@ pre .javascript .function {
   z-index: 1500;
   top: 0;
 }
+<<<<<<< HEAD
 >>>>>>> 8652526eb984f488cf201aed64a455c62017051c
+=======
+>>>>>>> d1d3eb93ae318b953d91609ccbff39329e99e9e9
 .post-body {
   font-family: 'Lato', "PingFang SC", "Microsoft YaHei", sans-serif;
   overflow-wrap: break-word;
