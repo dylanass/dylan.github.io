@@ -13,15 +13,17 @@
   },
   "dependencies": {
     "hexo": "^5.0.0",
+    "hexo-asset-image": "^1.0.0",
     "hexo-deployer-git": "^3.0.0",
     "hexo-generator-archive": "^1.0.0",
     "hexo-generator-category": "^1.0.0",
     "hexo-generator-index": "^2.0.0",
     "hexo-generator-tag": "^1.0.0",
     "hexo-renderer-ejs": "^1.0.0",
-    "hexo-renderer-marked": "^4.0.0",
+    "hexo-renderer-marked": "^4.1.0",
     "hexo-renderer-stylus": "^2.0.0",
     "hexo-server": "^2.0.0",
     "hexo-theme-landscape": "^0.0.3"
-  }
+  },
+  "repository": "git@github.com:dylanass/dylan.github.io.git"
 }
